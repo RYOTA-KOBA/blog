@@ -1,5 +1,5 @@
 terraform {
-  backend "local" {
-    path = "terraform.tfstate"
+  backend "s3" {
+    # Backend configuration provided via -backend-config flags in CI/CD
   }
 }
