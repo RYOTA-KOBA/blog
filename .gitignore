@@ -28,7 +28,7 @@
 terraform/terraform.tfvars
 terraform/.terraform/
 terraform/.terraform.lock.hcl
-terraform/terraform.tfstate*
+# State files are now tracked in git for local state management
 
 # debug
 npm-debug.log*
