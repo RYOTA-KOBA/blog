@@ -13,7 +13,6 @@ resource "cloudflare_pages_project" "blog" {
       pr_comments_enabled        = true
       deployments_enabled        = true
       preview_deployment_setting = "none"
-      preview_branch_includes    = [""]
     }
   }
 
