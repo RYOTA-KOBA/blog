@@ -1,0 +1,9 @@
+# Terraform Variables Example
+# Copy this file to terraform.tfvars and fill in the values
+
+cloudflare_api_token = "your-cloudflare-api-token"
+cloudflare_account_id = "your-cloudflare-account-id"
+cloudflare_zone_id = "your-cloudflare-zone-id"
+github_owner = "your-github-username"
+github_token = "your-github-personal-access-token"
+production_branch = "main"
