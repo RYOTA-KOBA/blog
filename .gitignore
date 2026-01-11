@@ -24,6 +24,12 @@
 .DS_Store
 *.pem
 
+# terraform
+terraform/terraform.tfvars
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate*
+
 # debug
 npm-debug.log*
 yarn-debug.log*

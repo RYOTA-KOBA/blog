@@ -20,8 +20,9 @@
 2. **Cloudflare Account ID**
    - Cloudflare ダッシュボード → アカウント情報から確認
 
-3. **Cloudflare Zone ID**
-   - (ドメインを使用する場合) Cloudflare ダッシュボード → ドメイン設定から確認
+3. **Cloudflare Zone ID** （オプション）
+   - カスタムドメインを使用する場合のみ必要
+   - 初期設定では不要（Cloudflare Pages `.pages.dev` ドメインを使用）
 
 4. **GitHub Personal Access Token**
    - `repo` と `workflow` スコープを付与
@@ -61,8 +62,8 @@ cloudflare_api_token = "your-actual-cloudflare-api-token"
 # Cloudflare Account ID
 cloudflare_account_id = "your-account-id-12345"
 
-# Cloudflare Zone ID (ドメイン使用時)
-cloudflare_zone_id = "your-zone-id-67890"
+# Cloudflare Zone ID (オプション - カスタムドメイン使用時のみ)
+# cloudflare_zone_id = "your-zone-id-67890"
 
 # GitHub Information
 github_owner = "your-github-username"
@@ -149,6 +150,39 @@ terraform output
 4. **自動デプロイを確認**
    - Cloudflare ダッシュボード → Pages で デプロイ状況を確認
    - デプロイ完了後、ブログサイトに新しい記事が反映されます
+
+## カスタムドメインの設定（オプション）
+
+独自のドメイン（例: blog.example.com）を使用する場合は、以下の手順で DNS を設定します：
+
+### Step 1: Cloudflare に Zone ID を登録
+
+`terraform.tfvars` を編集して、Zone ID を設定します：
+
+```hcl
+cloudflare_zone_id = "your-actual-zone-id"
+```
+
+Zone ID は Cloudflare ダッシュボード → ドメイン設定 → Overview から確認できます。
+
+### Step 2: 再度 Terraform Apply
+
+```bash
+terraform plan
+terraform apply
+```
+
+### Step 3: DNS レコード設定
+
+Cloudflare ダッシュボード → DNS → レコード追加で、CNAME レコードを設定します：
+
+```
+名前: blog
+コンテンツ: <your-project>.pages.dev
+TTL: Auto
+```
+
+詳細は [Cloudflare Pages のドメイン設定ドキュメント](https://developers.cloudflare.com/pages/get-started/#custom-domain) を参照してください。
 
 ## トラブルシューティング
 

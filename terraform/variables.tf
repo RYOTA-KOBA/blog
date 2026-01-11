@@ -10,8 +10,9 @@ variable "cloudflare_account_id" {
 }
 
 variable "cloudflare_zone_id" {
-  description = "Cloudflare Zone ID"
+  description = "Cloudflare Zone ID (Optional - only needed for custom domain)"
   type        = string
+  default     = ""
 }
 
 variable "project_name" {
