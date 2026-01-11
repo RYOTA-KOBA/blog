@@ -1,6 +1,6 @@
-import { getArticle, getArticles } from '@/lib/blog';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { getArticle, getArticles } from "@/lib/blog";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 type ArticlePageProps = {
   params: Promise<{
@@ -10,7 +10,7 @@ type ArticlePageProps = {
 
 export const generateStaticParams = async () => {
   const articles = await getArticles();
-  return articles.map(article => ({
+  return articles.map((article) => ({
     slug: article.slug,
   }));
 };
@@ -20,7 +20,7 @@ export const generateMetadata = async ({ params }: ArticlePageProps) => {
   const article = await getArticle(slug);
 
   if (!article) {
-    return { title: 'Not Found' };
+    return { title: "Not Found" };
   }
 
   return {
@@ -56,7 +56,7 @@ const ArticlePage = async ({ params }: ArticlePageProps) => {
             </h1>
             <div className="text-sm sm:text-base text-gray-600 space-y-2">
               <div>
-                <span>{new Date(article.date).toLocaleDateString('ja-JP')}</span>
+                <span>{new Date(article.date).toLocaleDateString("ja-JP")}</span>
               </div>
               <div>
                 <span className="inline-block bg-gray-100 px-3 py-1 rounded text-xs sm:text-sm">
@@ -77,10 +77,7 @@ const ArticlePage = async ({ params }: ArticlePageProps) => {
 
         {/* フッター */}
         <div className="border-t pt-6 sm:pt-8 mt-6 sm:mt-8">
-          <Link
-            href="/"
-            className="text-sm sm:text-base text-blue-600 hover:text-blue-800"
-          >
+          <Link href="/" className="text-sm sm:text-base text-blue-600 hover:text-blue-800">
             ← 記事一覧に戻る
           </Link>
         </div>

@@ -116,6 +116,24 @@ terraform output
 2. Pages セクションで新しいプロジェクトを確認
 3. GitHub リポジトリの `main` ブランチへのコミットが自動デプロイされることを確認
 
+### デプロイフィルターの設定（オプション）
+
+デフォルトではすべてのコミットでビルド・デプロイが実行されます。特定のファイル変更時のみデプロイしたい場合は、Cloudflare Pages で以下の設定を行います：
+
+**Cloudflare UI での設定:**
+
+1. **Cloudflare ダッシュボード → Pages → blog プロジェクト**
+2. **Settings → Build settings**
+3. **Build on commit** セクションで：
+   - **Include paths**: `public/articles/**` （記事ファイル変更時のみデプロイ）
+
+これにより、`public/articles/` 配下の変更時のみビルド・デプロイが実行されます。
+
+**注意**: 
+- この設定は Terraform からは管理できません
+- Cloudflare UI で手動設定する必要があります
+- 設定後、`terraform apply` を再実行しても設定は保持されます
+
 ## デプロイフロー
 
 ### 記事を投稿してデプロイする手順

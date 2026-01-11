@@ -1,6 +1,6 @@
-import { getArticlesByMonth, getMonths } from '@/lib/blog';
-import { ArticleList } from '@/components/ArticleList';
-import Link from 'next/link';
+import { getArticlesByMonth, getMonths } from "@/lib/blog";
+import { ArticleList } from "@/components/ArticleList";
+import Link from "next/link";
 
 type ArchivePageProps = {
   params: Promise<{
@@ -56,6 +56,6 @@ export const generateStaticParams = async () => {
   const months = await getMonths();
   return months.map(({ year, month }) => ({
     year: year.toString(),
-    month: String(month).padStart(2, '0'),
+    month: String(month).padStart(2, "0"),
   }));
 };

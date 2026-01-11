@@ -146,14 +146,57 @@ npm start
 npm run lint
 ```
 
+### テスト
+
+```bash
+# すべてのテストを実行
+npm test
+
+# UI ダッシュボード付きでテスト実行
+npm run test:ui
+```
+
+### フォーマット確認
+
+```bash
+# フォーマット状況を確認
+npm run format:check
+
+# 自動修正
+npm run format
+```
+
+### TypeScript 型チェック
+
+```bash
+# 型チェックを実行
+npx tsc --noemit
+```
+
+## CI/CD パイプライン
+
+### Pull Request チェック
+
+PR 作成時に以下のチェックが自動実行されます：
+
+- **Format Check**: Biome によるコード フォーマット確認
+- **TypeScript Type Check**: TypeScript の型チェック
+
+詳細は [.github/workflows/pr-checks.yml](.github/workflows/pr-checks.yml) を参照してください。
+
+### Cloudflare Pages デプロイ
+
+GitHub の `main` ブランチにプッシュされると、自動的に Cloudflare Pages にデプロイされます。
+
 ## デプロイ
 
 ### Cloudflare Pages へのデプロイ
 
-1. **初期セットアップ**
+#### 初期セットアップ（Terraform を使用）
+
+1. **Terraform の初期化**
 
    ```bash
-   # Terraform の初期化
    cd terraform
    terraform init
    ```
@@ -165,7 +208,7 @@ npm run lint
    ```hcl
    cloudflare_api_token = "your-cloudflare-api-token"
    cloudflare_account_id = "your-account-id"
-   cloudflare_zone_id = "your-zone-id"
+   cloudflare_zone_id = ""  # オプション（カスタムドメイン使用時のみ）
    github_owner = "your-github-username"
    github_token = "your-github-token"
    production_branch = "main"
@@ -178,10 +221,31 @@ npm run lint
    terraform apply  # リソースを作成
    ```
 
-4. **GitHub との連携**
+#### デプロイの流れ
 
-   デプロイ後、Cloudflare Pages は GitHub リポジトリの `main` ブランチの更新を監視します。
-   新しいコミットがプッシュされると、自動的にビルド・デプロイされます。
+Terraform で Cloudflare Pages を作成すると、以下のフローが自動で確立されます：
+
+```
+GitHub main ブランチへの push
+    ↓
+Cloudflare Pages が自動検知
+    ↓
+npm run build でビルド（out/ ディレクトリに静的ファイル出力）
+    ↓
+Cloudflare Pages にデプロイ
+    ↓
+https://blog-xxxx.pages.dev/ でサイト公開
+```
+
+#### デプロイフィルターの設定（オプション）
+
+デフォルトではすべてのコミットでビルド・デプロイされます。記事変更時のみデプロイしたい場合は、Cloudflare UI で設定します：
+
+1. **Cloudflare ダッシュボード → Pages → blog プロジェクト**
+2. **Settings → Build settings**
+3. **Build on commit** → **Include paths**: `public/articles/**`
+
+詳細は [terraform/README.md](terraform/README.md#デプロイフィルターの設定オプション) を参照してください。
 
 ### 認証情報の取得方法
 
