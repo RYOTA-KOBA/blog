@@ -1,7 +1,7 @@
 variable "r2_bucket_name" {
   description = "R2 bucket name for storing terraform state"
   type        = string
-  default     = "blog-terraform-state"
+  default     = "tfstate-for-blog"
 }
 
 variable "r2_location_hint" {
