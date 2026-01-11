@@ -181,8 +181,26 @@ PR 作成時に以下のチェックが自動実行されます：
 
 - **Format Check**: Biome によるコード フォーマット確認
 - **TypeScript Type Check**: TypeScript の型チェック
+- **Unit Tests**: Vitest によるテスト実行
 
 詳細は [.github/workflows/pr-checks.yml](.github/workflows/pr-checks.yml) を参照してください。
+
+### Terraform パイプライン
+
+Terraform 関連のファイル変更時に以下が実行されます：
+
+#### PR 作成時（Terraform Plan）
+- `terraform plan` を実行
+- 結果を PR コメントに追加
+- インフラ変更内容をレビュー可能に
+
+詳細は [.github/workflows/terraform-plan.yml](.github/workflows/terraform-plan.yml) を参照してください。
+
+#### main ブランチへマージ時（Terraform Apply）
+- `terraform apply -auto-approve` を実行
+- 実際にリソースを作成・更新・削除
+
+詳細は [.github/workflows/terraform-apply.yml](.github/workflows/terraform-apply.yml) を参照してください。
 
 ### Cloudflare Pages デプロイ
 
@@ -257,6 +275,19 @@ https://blog-xxxx.pages.dev/ でサイト公開
 #### GitHub Token
 1. GitHub → Settings → Developer settings → Personal access tokens
 2. `repo` と `workflow` の権限を付与
+
+### GitHub Actions Secret 設定
+
+Terraform CI を実行するには、以下の Secret をリポジトリに設定してください：
+
+1. **GitHub リポジトリ → Settings → Secrets and variables → Actions**
+2. 以下の Secret を追加：
+   - `CLOUDFLARE_API_TOKEN`: Cloudflare API Token
+   - `CLOUDFLARE_ACCOUNT_ID`: Cloudflare Account ID
+
+**設定後、以下が自動実行されます：**
+- PR 作成時：`terraform plan` 結果を PR コメントに追加
+- main マージ時：`terraform apply -auto-approve` で実際にリソースを作成・更新
 
 ## ドキュメント
 
