@@ -14,6 +14,7 @@ resource "cloudflare_pages_project" "blog" {
       deployments_enabled        = true
       preview_deployment_setting = "all"
       preview_branch_includes    = ["develop"]
+      path_includes              = ["public/", "src/"]
     }
   }
 
