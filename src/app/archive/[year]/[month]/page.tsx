@@ -1,4 +1,4 @@
-import { getArticlesByMonth } from '@/lib/blog';
+import { getArticlesByMonth, getMonths } from '@/lib/blog';
 import { ArticleList } from '@/components/ArticleList';
 import Link from 'next/link';
 
@@ -51,3 +51,11 @@ const ArchivePage = async ({ params }: ArchivePageProps) => {
 };
 
 export default ArchivePage;
+
+export const generateStaticParams = async () => {
+  const months = await getMonths();
+  return months.map(({ year, month }) => ({
+    year: year.toString(),
+    month: String(month).padStart(2, '0'),
+  }));
+};
