@@ -19,7 +19,7 @@ resource "cloudflare_pages_project" "blog" {
 
   build_config {
     build_command   = "npm run build"
-    destination_dir = ".next"
+    destination_dir = "out"
     root_dir        = ""
   }
 }
