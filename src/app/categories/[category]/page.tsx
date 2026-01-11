@@ -8,14 +8,14 @@ type CategoryPageProps = {
   }>;
 };
 
-export async function generateStaticParams() {
+export const generateStaticParams = async () => {
   const categories = await getCategories();
   return categories.map(category => ({
     category: encodeURIComponent(category),
   }));
-}
+};
 
-export async function generateMetadata({ params }: CategoryPageProps) {
+export const generateMetadata = async ({ params }: CategoryPageProps) => {
   const { category } = await params;
   const decodedCategory = decodeURIComponent(category);
 
@@ -23,9 +23,9 @@ export async function generateMetadata({ params }: CategoryPageProps) {
     title: `${decodedCategory} - カテゴリ`,
     description: `${decodedCategory}カテゴリの記事一覧`,
   };
-}
+};
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
+const CategoryPage = async ({ params }: CategoryPageProps) => {
   const { category } = await params;
   const decodedCategory = decodeURIComponent(category);
   const articles = await getArticlesByCategory(decodedCategory);
@@ -48,4 +48,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       </div>
     </main>
   );
-}
+};
+
+export default CategoryPage;

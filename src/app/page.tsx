@@ -2,7 +2,7 @@ import { getArticles, getCategories, getMonths } from '@/lib/blog';
 import { ArticleList } from '@/components/ArticleList';
 import { Sidebar } from '@/components/Sidebar';
 
-export default async function Home() {
+const Home = async () => {
   const articles = await getArticles();
   const categories = await getCategories();
   const months = await getMonths();
@@ -31,4 +31,6 @@ export default async function Home() {
       </div>
     </main>
   );
-}
+};
+
+export default Home;

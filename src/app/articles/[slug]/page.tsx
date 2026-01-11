@@ -8,14 +8,14 @@ type ArticlePageProps = {
   }>;
 };
 
-export async function generateStaticParams() {
+export const generateStaticParams = async () => {
   const articles = await getArticles();
   return articles.map(article => ({
     slug: article.slug,
   }));
-}
+};
 
-export async function generateMetadata({ params }: ArticlePageProps) {
+export const generateMetadata = async ({ params }: ArticlePageProps) => {
   const { slug } = await params;
   const article = await getArticle(slug);
 
@@ -27,9 +27,9 @@ export async function generateMetadata({ params }: ArticlePageProps) {
     title: article.title,
     description: article.excerpt,
   };
-}
+};
 
-export default async function ArticlePage({ params }: ArticlePageProps) {
+const ArticlePage = async ({ params }: ArticlePageProps) => {
   const { slug } = await params;
   const article = await getArticle(slug);
 
@@ -87,4 +87,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       </div>
     </main>
   );
-}
+};
+
+export default ArticlePage;

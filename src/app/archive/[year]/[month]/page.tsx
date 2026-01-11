@@ -9,7 +9,7 @@ type ArchivePageProps = {
   }>;
 };
 
-export default async function ArchivePage({ params }: ArchivePageProps) {
+const ArchivePage = async ({ params }: ArchivePageProps) => {
   const { year, month } = await params;
   const yearNum = parseInt(year);
   const monthNum = parseInt(month);
@@ -48,4 +48,6 @@ export default async function ArchivePage({ params }: ArchivePageProps) {
       </div>
     </main>
   );
-}
+};
+
+export default ArchivePage;
