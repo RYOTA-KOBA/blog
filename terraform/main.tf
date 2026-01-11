@@ -7,14 +7,13 @@ resource "cloudflare_pages_project" "blog" {
     type = "github"
 
     config {
-      owner                         = var.github_owner
-      repo_name                     = var.github_repo
-      production_branch             = var.production_branch
-      pr_comments_enabled           = true
-      deployments_enabled           = true
-      github_token                  = var.github_token
-      preview_deployment_setting    = "auto"
-      preview_branch_includes       = ["develop"]
+      owner                      = var.github_owner
+      repo_name                  = var.github_repo
+      production_branch          = var.production_branch
+      pr_comments_enabled        = true
+      deployments_enabled        = true
+      preview_deployment_setting = "all"
+      preview_branch_includes    = ["develop"]
     }
   }
 
@@ -23,15 +22,11 @@ resource "cloudflare_pages_project" "blog" {
     destination_dir = ".next"
     root_dir        = ""
   }
-
-  environment_variables = {
-    NODE_VERSION = "20"
-  }
 }
 
 output "cloudflare_pages_project_url" {
   description = "Cloudflare Pages Project URL"
-  value       = cloudflare_pages_project.blog.subdomain
+  value       = cloudflare_pages_project.blog.domains[0]
 }
 
 output "cloudflare_pages_project_name" {
