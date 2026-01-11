@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 
 type SidebarProps = {
   categories?: string[];
@@ -13,11 +13,9 @@ export function Sidebar({ categories = [], months = [] }: SidebarProps) {
       {/* カテゴリ一覧 */}
       {categories.length > 0 && (
         <div className="mb-6 sm:mb-8">
-          <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
-            カテゴリ
-          </h3>
+          <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">カテゴリ</h3>
           <ul className="space-y-2">
-            {categories.map(category => (
+            {categories.map((category) => (
               <li key={category}>
                 <Link
                   href={`/categories/${encodeURIComponent(category)}`}
@@ -34,14 +32,12 @@ export function Sidebar({ categories = [], months = [] }: SidebarProps) {
       {/* アーカイブ */}
       {months.length > 0 && (
         <div>
-          <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
-            アーカイブ
-          </h3>
+          <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">アーカイブ</h3>
           <ul className="space-y-2">
             {months.map(({ year, month }) => (
               <li key={`${year}-${month}`}>
                 <Link
-                  href={`/archive/${year}/${String(month).padStart(2, '0')}`}
+                  href={`/archive/${year}/${String(month).padStart(2, "0")}`}
                   className="text-sm sm:text-base text-blue-600 hover:text-blue-800"
                 >
                   {year}年{month}月

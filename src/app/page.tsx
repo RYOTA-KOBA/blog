@@ -1,6 +1,6 @@
-import { getArticles, getCategories, getMonths } from '@/lib/blog';
-import { ArticleList } from '@/components/ArticleList';
-import { Sidebar } from '@/components/Sidebar';
+import { getArticles, getCategories, getMonths } from "@/lib/blog";
+import { ArticleList } from "@/components/ArticleList";
+import { Sidebar } from "@/components/Sidebar";
 
 const Home = async () => {
   const articles = await getArticles();
@@ -12,9 +12,7 @@ const Home = async () => {
       <div className="max-w-6xl mx-auto px-3 py-4 sm:px-4 sm:py-8">
         {/* ヘッダー */}
         <header className="mb-8 sm:mb-12">
-          <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2">
-            My Blog
-          </h1>
+          <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2">My Blog</h1>
           <p className="text-sm sm:text-base text-gray-600">技術ブログ</p>
         </header>
 

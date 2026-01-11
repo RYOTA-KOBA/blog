@@ -1,6 +1,6 @@
-import { getArticlesByCategory, getCategories } from '@/lib/blog';
-import { ArticleList } from '@/components/ArticleList';
-import Link from 'next/link';
+import { getArticlesByCategory, getCategories } from "@/lib/blog";
+import { ArticleList } from "@/components/ArticleList";
+import Link from "next/link";
 
 type CategoryPageProps = {
   params: Promise<{
@@ -10,7 +10,7 @@ type CategoryPageProps = {
 
 export const generateStaticParams = async () => {
   const categories = await getCategories();
-  return categories.map(category => ({
+  return categories.map((category) => ({
     category: encodeURIComponent(category),
   }));
 };
