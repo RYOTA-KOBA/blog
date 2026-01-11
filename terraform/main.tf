@@ -1,5 +1,3 @@
-# Import Pages project managed by Cloudflare dashboard
-
 resource "cloudflare_pages_project" "blog" {
   account_id        = var.cloudflare_account_id
   name              = var.project_name
