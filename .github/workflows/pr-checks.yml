@@ -4,6 +4,13 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'src/**'
+      - 'package.json'
+      - 'vitest.config.ts'
+      - 'vitest.setup.ts'
+      - 'biome.json'
+      - 'tsconfig.json'
 
 jobs:
   format-check:

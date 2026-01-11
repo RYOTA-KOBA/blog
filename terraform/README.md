@@ -202,6 +202,57 @@ TTL: Auto
 
 詳細は [Cloudflare Pages のドメイン設定ドキュメント](https://developers.cloudflare.com/pages/get-started/#custom-domain) を参照してください。
 
+## CI/CD パイプライン
+
+### GitHub Actions 統合
+
+Terraform 関連ファイルの変更時に自動実行されます：
+
+#### PR 作成時（terraform plan）
+
+```yaml
+# .github/workflows/terraform-plan.yml
+on:
+  pull_request:
+    paths:
+      - 'terraform/**'
+```
+
+**動作:**
+1. terraform plan を実行
+2. 結果を PR コメントに追加
+3. インフラ変更内容をレビュー可能に
+
+#### main マージ時（terraform apply）
+
+```yaml
+# .github/workflows/terraform-apply.yml
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'terraform/**'
+```
+
+**動作:**
+1. terraform apply を自動実行
+2. リソースを作成・更新・削除
+3. デプロイログを出力
+
+### Secret 設定
+
+GitHub Actions で Terraform を実行するには、以下の Secret を設定してください：
+
+1. **GitHub リポジトリ → Settings → Secrets and variables → Actions**
+2. 以下の Secret を追加：
+
+| Secret Name | 説明 | 取得方法 |
+|---|---|---|
+| `CLOUDFLARE_API_TOKEN` | Cloudflare API Token | Cloudflare ダッシュボード → マイプロフィール → API トークン |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare Account ID | Cloudflare ダッシュボード → アカウント情報 |
+
+**設定後、Terraform ワークフローが有効になります。**
+
 ## トラブルシューティング
 
 ### Terraform Apply 時のエラー

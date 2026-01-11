@@ -12,8 +12,7 @@ resource "cloudflare_pages_project" "blog" {
       production_branch          = var.production_branch
       pr_comments_enabled        = true
       deployments_enabled        = true
-      preview_deployment_setting = "all"
-      preview_branch_includes    = ["develop"]
+      preview_deployment_setting = "none"
     }
   }
 

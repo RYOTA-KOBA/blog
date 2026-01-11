@@ -1,0 +1,89 @@
+name: Terraform Plan
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'terraform/**'
+
+jobs:
+  plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.5.7'
+
+      - name: Terraform Init
+        run: |
+          cd terraform
+          terraform init -backend-config="bucket=${{ secrets.R2_BUCKET }}" \
+            -backend-config="key=${{ secrets.R2_TFSTATE_KEY }}" \
+            -backend-config="region=apac" \
+            -backend-config="skip_credentials_validation=true" \
+            -backend-config="skip_region_validation=true" \
+            -backend-config="encrypt=true" \
+            -backend-config="endpoint=${{ secrets.R2_ENDPOINT }}" \
+            -backend-config="access_key=${{ secrets.R2_ACCESS_KEY_ID }}" \
+            -backend-config="secret_key=${{ secrets.R2_SECRET_ACCESS_KEY }}" \
+            -backend-config="force_path_style=true" -reconfigure
+        env:
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          TF_VAR_github_owner: ${{ github.repository_owner }}
+          TF_VAR_github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          cd terraform
+          terraform plan -no-color -out=tfplan 2>&1 | tee /tmp/terraform-plan.txt
+        env:
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          TF_VAR_github_owner: ${{ github.repository_owner }}
+          TF_VAR_github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        continue-on-error: true
+
+      - name: Terraform Plan Output
+        id: plan-output
+        run: |
+          cd terraform
+          terraform show -no-color tfplan > /tmp/tfplan-show.txt
+          # Remove sensitive account_id from output
+          grep -v "account_id" /tmp/tfplan-show.txt > /tmp/tfplan-filtered.txt
+          cat /tmp/tfplan-filtered.txt
+
+      - name: Comment PR with Plan
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const fs = require('fs');
+            const planOutput = fs.readFileSync('/tmp/tfplan-filtered.txt', 'utf8');
+            
+            const comment = `## 📋 Terraform Plan
+
+            \`\`\`terraform
+            ${planOutput}
+            \`\`\`
+
+            ⚠️ **Please review the plan above before merging**`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
