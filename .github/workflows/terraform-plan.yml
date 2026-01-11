@@ -10,8 +10,8 @@ on:
 jobs:
   plan:
     name: Terraform Plan
-    runs-on: ubuntu-slim
-    
+    runs-on: ubuntu-latest
+
     permissions:
       pull-requests: write
       contents: read
@@ -39,7 +39,7 @@ jobs:
         id: plan
         run: |
           cd terraform
-          terraform plan -no-color -out=tfplan
+          terraform plan -no-color -out=tfplan 2>&1 | tee /tmp/terraform-plan.txt
         env:
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -51,8 +51,8 @@ jobs:
         id: plan-output
         run: |
           cd terraform
-          terraform show tfplan > /tmp/tfplan.txt
-          cat /tmp/tfplan.txt
+          terraform show -no-color tfplan > /tmp/tfplan-show.txt
+          cat /tmp/tfplan-show.txt
 
       - name: Comment PR with Plan
         uses: actions/github-script@v7
@@ -60,14 +60,14 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const planOutput = `\`\`\`terraform
-            ${fs.readFileSync('/tmp/tfplan.txt', 'utf8')}
-            \`\`\``;
+            const planOutput = fs.readFileSync('/tmp/tfplan-show.txt', 'utf8');
             
-            const comment = `## Terraform Plan Result
-            
+            const comment = `## 📋 Terraform Plan
+
+            \`\`\`terraform
             ${planOutput}
-            
+            \`\`\`
+
             ⚠️ **Please review the plan above before merging**`;
             
             github.rest.issues.createComment({
