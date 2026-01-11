@@ -30,6 +30,7 @@ jobs:
           cd terraform
           terraform init -backend-config="bucket=${{ secrets.R2_BUCKET }}" \
             -backend-config="key=${{ secrets.R2_TFSTATE_KEY }}" \
+            -backend-config="region=ap-northeast-1" \
             -backend-config="endpoint=${{ secrets.R2_ENDPOINT }}" \
             -backend-config="access_key=${{ secrets.R2_ACCESS_KEY_ID }}" \
             -backend-config="secret_key=${{ secrets.R2_SECRET_ACCESS_KEY }}" \
