@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ArticleList } from "../ArticleList";
-import type { BlogPostMetadata } from "@/types/blog";
+import type { BlogPostMetadata } from "../../types/blog";
 
 describe("ArticleList", () => {
   const mockArticles: BlogPostMetadata[] = [

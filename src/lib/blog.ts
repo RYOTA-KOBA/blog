@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { marked } from "marked";
-import { BlogPost, BlogPostMetadata } from "@/types/blog";
+import type { BlogPost, BlogPostMetadata } from "../types/blog";
 
 const ARTICLES_DIR = path.join(process.cwd(), "public/articles");
 

@@ -1,4 +1,4 @@
-import { getArticle, getArticles } from "@/lib/blog";
+import { getArticle, getArticles } from "../../../lib/blog";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 

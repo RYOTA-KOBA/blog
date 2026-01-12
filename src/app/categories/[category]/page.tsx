@@ -1,5 +1,5 @@
-import { getArticlesByCategory, getCategories } from "@/lib/blog";
-import { ArticleList } from "@/components/ArticleList";
+import { getArticlesByCategory, getCategories } from "../../../lib/blog";
+import { ArticleList } from "../../../components/ArticleList";
 import Link from "next/link";
 
 type CategoryPageProps = {

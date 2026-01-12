@@ -1,6 +1,6 @@
-import { getArticles, getCategories, getMonths } from "@/lib/blog";
-import { ArticleList } from "@/components/ArticleList";
-import { Sidebar } from "@/components/Sidebar";
+import { getArticles, getCategories, getMonths } from "../lib/blog";
+import { ArticleList } from "../components/ArticleList";
+import { Sidebar } from "../components/Sidebar";
 
 const Home = async () => {
   const articles = await getArticles();
