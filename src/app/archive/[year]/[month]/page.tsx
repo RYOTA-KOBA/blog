@@ -1,5 +1,5 @@
-import { getArticlesByMonth, getMonths } from "@/lib/blog";
-import { ArticleList } from "@/components/ArticleList";
+import { getArticlesByMonth, getMonths } from "../../../../lib/blog";
+import { ArticleList } from "../../../../components/ArticleList";
 import Link from "next/link";
 
 type ArchivePageProps = {

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BlogPostMetadata } from "@/types/blog";
+import { BlogPostMetadata } from "../types/blog";
 
 type ArticleListProps = {
   articles: BlogPostMetadata[];
